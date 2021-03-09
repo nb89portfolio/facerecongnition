@@ -5,9 +5,11 @@ import NavBar from './components/navbar/NavBar';
 import Application from './components/application/Application';
 import Login from './components/login/Login';
 
-const clarifaiAPI = new Clarifai.App({
- apiKey: 'eef4a030646449988f9c7ce5b6975af6'
-});
+/*
+  const clarifaiAPI = new Clarifai.App({
+  apiKey: 'eef4a030646449988f9c7ce5b6975af6'
+  });
+*/
 
 class App extends Component {
   constructor(){
