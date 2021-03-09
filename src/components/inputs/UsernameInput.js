@@ -28,7 +28,7 @@ class UsernameInput extends Component {
 
         return(
             <div>
-                <input type="text" id="inputForUsername" placeholder="Username" onChange={this.validateUsername} />
+                <input type="text" id="inputForUsername" placeholder="Username" onChange={this.validateUsername, parentCallsInput} />
                 {
                     this.state.isValid ? <br /> : <div class="inputError">{usernameError}</div>
                 }
