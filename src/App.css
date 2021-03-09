@@ -1,38 +1,83 @@
-.App {
-  text-align: center;
+nav {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: 0 2px 3px 0 black;
+    font-weight: bold;
+    font-size: small;
+    font-size: small;
+    color: #ff8800;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+nav img {
+    width: 36px;
+    height: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+nav button {
+    margin-left: auto;
+    font-weight: bold;
+    color: #ff8800;
+    padding: 5px 10px 5px 10px;
+    border: 2px solid #ff8800;
+    border-radius: 25px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+main {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+main form {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid grey;
+    border-radius: 25px;
+    box-shadow: 0px 1px 2px 0px black;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+main button {
+    font-weight: bold;
+    color: #ff8800;
+    padding: 5px 10px 5px 10px;
+    border: 2px solid #ff8800;
+    border-radius: 25px;
+}
+
+main form div {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+main form div .inputError {
+    display: flex;
+    flex-wrap: wrap;
+    color: red;
+    font-size: smaller;
+}
+
+main form div input {
+    padding: 5px 10px 5px 10px;
+    border: 2px solid #ff8800;
+    border-radius: 25px;
+}
+
+main form div input:focus {
+    padding: 5px 10px 5px 10px;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 25px;
+    background-color: rgb(255, 226, 147);
 }

@@ -1,0 +1,16 @@
+nav {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    
+    background-color: #ebf0fc;
+
+    box-shadow: 0 2px 3px 0 black;
+}
+
+nav p {
+    margin: 5px;
+}
