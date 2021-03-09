@@ -1,0 +1,13 @@
+#targetImage {
+    width:100%;
+    height:auto;
+}
+
+.boundingBox {
+    position: absolute;
+    box-shadow: 0 0 0 3px black inset;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    cursor: pointer;
+}
