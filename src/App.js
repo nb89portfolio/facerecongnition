@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import './App.css';
-import Clarifai from 'clarifai';
 import NavBar from './components/navbar/NavBar';
 import Application from './components/application/Application';
 import Login from './components/login/Login';
+
 class App extends Component {
   constructor(){
     super();
