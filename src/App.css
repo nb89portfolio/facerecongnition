@@ -46,38 +46,66 @@ main form {
 }
 
 main button {
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
     font-weight: bold;
     color: #ff8800;
-    padding: 5px 10px 5px 10px;
     border: 2px solid #ff8800;
     border-radius: 25px;
 }
 
-main form div {
-    margin: 10px;
-    padding: 10px;
+main form input {
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #ff8800;
+    border-radius: 25px;
+}
+
+main form input:focus {
+    background-color: #ffe99f;
+}
+
+main .formError {
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+    font-size: small;
+    color: #ce0000;
+}
+
+main section {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-content: center;
+    align-items: center;
 }
 
-main form div .inputError {
+main section span {
     display: flex;
+    flex-direction: row;
+}
+
+main section span input {
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #ff8800;
+    border-radius: 25px;
+}
+
+main section span:focus {
+    background-color: #ffe99f;
+}
+
+main section img {
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.targetBox {
+    position: absolute;
+    box-shadow: 0 0 0 3px blue inset;
+    display:flex;
     flex-wrap: wrap;
-    color: red;
-    font-size: smaller;
-}
-
-main form div input {
-    padding: 5px 10px 5px 10px;
-    border: 2px solid #ff8800;
-    border-radius: 25px;
-}
-
-main form div input:focus {
-    padding: 5px 10px 5px 10px;
-    border: 2px solid rgb(0, 0, 0);
-    border-radius: 25px;
-    background-color: rgb(255, 226, 147);
+    justify-content: center;
+    cursor: pointer;
 }

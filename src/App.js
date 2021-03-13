@@ -4,13 +4,13 @@ import Clarifai from 'clarifai';
 import NavBar from './components/navbar/NavBar';
 import Application from './components/application/Application';
 import Login from './components/login/Login';
-
 class App extends Component {
   constructor(){
     super();
 
     this.state = {
       route:'Login',
+      routeOptions: ['Login', 'Logout'],
       isSignedIn: false,
       username:'NB89|Portfolio [Face Recognition App]',
       imageUrl:'',
@@ -19,16 +19,11 @@ class App extends Component {
   }
 
   onLogout = () => {
-    const routeOptions = [
-      'Login',
-      'Logout'
-    ];
-
     const applicationName = 'NB89|Portfolio [Face Recognition App]';
 
     if(this.state.isSignedIn){
       this.setState({ 
-        route: routeOptions[0],
+        route: this.state.routeOptions[0],
         isSignedIn: !this.state.isSignedIn,
         username: applicationName
       });
@@ -36,14 +31,11 @@ class App extends Component {
   }
 
   onLogin = (isFormValid, namedUser) => {
-    const routeOptions = [
-      'Login',
-      'Logout'
-    ];
+    console.log(isFormValid);
 
     if(isFormValid) {
       this.setState({
-        route: routeOptions[1],
+        route: this.state.routeOptions[1],
         isSignedIn: !this.state.isSignedIn,
         username: namedUser
       });
@@ -55,7 +47,7 @@ class App extends Component {
       <div>
         <NavBar username={this.state.username} route={this.state.route} onLogout={this.onLogout} />
         {
-          this.state.isSignedIn ? <Application /> : <Login />
+          this.state.isSignedIn ? <Application username={this.state.username} /> : <Login onLogin={this.onLogin} />
         }
       </div>
     );
