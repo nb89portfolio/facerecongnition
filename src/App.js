@@ -1,56 +1,57 @@
 import React, {Component} from 'react';
 import './App.css';
-import NavBar from './components/navbar/NavBar';
-import Application from './components/application/Application';
-import Login from './components/login/Login';
+import ApiHandler from './components/apiHandler/ApiHandler';
+import Client from './components/client/Client';
+import Navigation from './components/navigation/Navigation';
 
 class App extends Component {
   constructor(){
     super();
 
     this.state = {
-      route:'Login',
-      routeOptions: ['Login', 'Logout'],
+      username: 'Face Recognition Application',
       isSignedIn: false,
-      username:'NB89|Portfolio [Face Recognition App]',
-      imageUrl:'',
-      targetBox:{}
+      clientRoute: 'Sign Up',
+      email: '',
+      entries: 0,
     }
   }
 
-  onLogout = () => {
-    const applicationName = 'NB89|Portfolio [Face Recognition App]';
-
-    if(this.state.isSignedIn){
-      this.setState({ 
-        route: this.state.routeOptions[0],
-        isSignedIn: !this.state.isSignedIn,
-        username: applicationName
-      });
-    } 
+  logoutUser = () => {
+    this.setState({
+      username: 'Face Recognition Application',
+      isSignedIn: false,
+      clientRoute: 'Sign In',
+      email: '',
+      entries: 0
+    });
   }
 
-  onLogin = (isFormValid, namedUser) => {
-    console.log(isFormValid);
+  loginUser = (passedUsername, passedEmail, passedEntries) => {
 
-    if(isFormValid) {
-      this.setState({
-        route: this.state.routeOptions[1],
-        isSignedIn: !this.state.isSignedIn,
-        username: namedUser
-      });
-    }
+    this.setState({
+      username: passedUsername,
+      isSignedIn: true,
+      email: passedEmail,
+      entries: passedEntries,
+    }, () => console.log(passedEmail, passedUsername, passedEntries));
   }
 
   render(){
     return (
       <div>
-        <NavBar username={this.state.username} route={this.state.route} onLogout={this.onLogout} />
+        <Navigation 
+          username={this.state.username} 
+          isSignedIn={this.state.isSignedIn} 
+          logoutUser={this.logoutUser} 
+        />
         {
-          this.state.isSignedIn ? <Application username={this.state.username} /> : <Login onLogin={this.onLogin} />
+          !this.state.isSignedIn
+          ? <Client clientRoute={this.state.clientRoute} loginUser={this.loginUser} />
+          : <ApiHandler email={this.state.email} entries={this.state.entries}/>
         }
       </div>
-    );
+      );
   }
 }
 
