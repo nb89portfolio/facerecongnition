@@ -6,14 +6,15 @@ import InputController from '../input/InputController';
 import Rank from '../ranking/Rank';
 
 class Application extends Component {
-    constructor({username}) {
+    constructor({email, searches}) {
         super();
 
         this.state = {
-            username: username,
+            id: email,
+            enteries: searches, 
             input: '',
             imageUrl: '',
-            box: {}
+            box: {},
         };
     }
 
@@ -21,7 +22,18 @@ class Application extends Component {
         this.setState({input: event.target.value});
     }
 
-    onConvertData = (data) => {
+    onButtonSubmit = () => {
+        this.setState({imageUrl: this.state.input});
+
+        app.models.predict(
+            Clarifai.FACE_DETECT_MODEL,
+            this.state.input
+        )
+        .then(response => this.onBuildBox(this.convertData(response)))
+        .catch(err => console.log(err))
+    }
+
+    convertData = (data) => {
         const targeting = data.outputs[0].data.regions[0].region_info.bounding_box;
         const image = document.getElementById('targetImage');
         const width = Number(image.width) + 20;
@@ -41,22 +53,18 @@ class Application extends Component {
         });
     }
 
-    onButtonSubmit = () => {
-        this.setState({imageUrl: this.state.input});
-
-        app.models.predict(
-            Clarifai.FACE_DETECT_MODEL,
-            this.state.input
-        ).then(response => this.onBuildBox(this.onConvertData(response))
-        .catch(err => console.log(err)));
-    }
-
     render() {
         return(
             <main>
-                <Rank username={this.state.username}/>
-                <InputController onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-                <ApiLink imageUrl={this.state.imageUrl} box={this.state.box}/>
+                <Rank entries={this.state.enteries}/>
+                <InputController 
+                    onInputChange={this.onInputChange} 
+                    onButtonSubmit={this.onButtonSubmit}
+                />
+                <ApiLink 
+                    imageUrl={this.state.imageUrl} 
+                    box={this.state.box}
+                />
             </main>
         );
     }

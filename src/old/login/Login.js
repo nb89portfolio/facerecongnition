@@ -1,24 +1,36 @@
 import React, {Component} from 'react';
+import UsernameInput from './Username';
 
 class Login extends Component {
     constructor() {
         super();
 
         this.state = {
-            currentOperation: 0,
-            operationsList: ['Registration', 'Login', 'Recover'],
-            username: '',
-            usernameValid: true,
-            email: '',
-            emailValid: true, 
-            password: '',  
-            passwordValid: true,
-            confirmation: '',
-            confirmationValid: true,
-            formValid: false     
+            route: {
+                options: [
+                    'Register',
+                    'Sign In',
+                    'Recover'
+                ],
+                current: 'Register' 
+            },
+            user: {
+                id: '',
+                email: '',
+                password: '',
+                confirmation: '',
+            },
+            validation: {
+                id: false,
+                email: false,
+                password: false,
+                confirmation: false,
+                submit: false
+            } 
         }
     }
 
+    /*
     toggleOperation = () => {
        this.setState({
            currentOperation: this.state.currentOperation === 1 ? 0 : 1
@@ -28,19 +40,6 @@ class Login extends Component {
     toggleRecovery = () => {
         this.setState({
             currentOperation: 2
-        });
-    }
-
-    validateUsername = (event) => {
-        const pattern = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
-
-        let validator = pattern.test(event.target.value);
-        
-        this.setState({
-            username: event.target.value,
-            usernameValid: validator
-        }, () => {
-            console.log();
         });
     }
 
@@ -89,41 +88,70 @@ class Login extends Component {
         });
     }
 
-    validateForm = () => {
-        if(
-            this.state.currentOperation === 0 
-            && this.state.usernameValid 
+    validateRegistration = () => {
+        return this.state.usernameValid 
             && this.state.username !== ''
             && this.state.emailValid
             && this.state.email !== '' 
             && this.state.passwordValid
             && this.state.password !== '' 
             && this.state.confirmationValid
-            && this.state.confirmation !== ''
-        ){
-            this.setState({
-                formValid: true
-            }, () => {
-                this.props.onLogin(this.state.formValid, this.state.username);
-            });
+            && this.state.confirmation !== '' 
+            ? true 
+            : false;
+    }
 
-        } else if(
-            this.state.currentOperation === 1
-            && this.state.emailValid 
+    validateLogin = () => {
+        return this.state.emailValid 
             && this.state.email !== '' 
             && this.state.passwordValid
             && this.state.password !== '' 
-        ){
+            ? true 
+            : false; 
+    }
+
+    validateRecovery = () =>{
+        return this.state.passwordValid
+            && this.state.password !== ''
+            ? true
+            : false; 
+    }
+
+    validateForm = () => {
+        if(this.state.currentOperation === 0 && this.validateRegistration()){
             this.setState({
                 formValid: true
             }, () => {
-                console.log();
+                fetch('http://localhost:3001/register', {
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: this.state.email,
+                        username: this.state.username,
+                        password: this.state.password,
+                    })
+                }).then(this.props.onLogin(this.state.formValid, this.state.username))
             });
-        } else if(
-            this.state.currentOperation === 2 
-            && this.state.passwordValid
-            && this.state.password !== '' 
-        ){
+        } else if(this.state.currentOperation === 1 && this.validateLogin()){
+            this.setState({
+                formValid: true
+            }, () => {
+                fetch('http://localhost:3001/login', {
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: this.state.email,
+                        password: this.state.password,
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data === 'Success'){
+                            this.props.onLogin(this.state.formValid, this.state.username);
+                        }
+                    })
+            });
+        } else if(this.state.currentOperation === 2 && this.validateRecovery()){
             this.setState({
                 formValid: true
             }, () => {
@@ -137,17 +165,19 @@ class Login extends Component {
             });
         }
     }
+    */
+   
+    fetchUsernameData = (usernameData, usernameValid) => {
+
+    }
 
     render() {
         const errorMessges = [
-            'Error: Username must be minimum 8 characters from and contain no special characters.',
+            ' ',
             'Error: Email is not formatted correctly.',
             'Error: Password must be 8 characters long with at least 1 special, lower, and'
                 + ' uppercase character.',
-            'Error: Entered passwords do not match.',
-            'Warning: This application is for demonstration. This is connected to the Clarifai face' 
-                + ' recognition api. Use the registration form to move onto the face recognition.' 
-                + ' No information is logged through the registration.'
+            'Error: Entered passwords do not match.'
         ];
 
         const buttonLabels = ['Recover', 'Submit'];
@@ -159,7 +189,7 @@ class Login extends Component {
                 <form>
                     {
                         this.state.currentOperation === 0
-                        ? <input type='text' placeholder='Username' onChange={this.validateUsername} />
+                        ? <UsernameInput fetchUsernameData={this.fetchUsernameData} />
                         : ''
                     }
                     <input type='email' placeholder='Email Address' onChange={this.validateEmail} />
@@ -174,7 +204,6 @@ class Login extends Component {
                         : ''
                     }
                 </form>
-                <div className="formError">{errorMessges[4]}</div>
                 {
                     this.state.usernameValid 
                         ? '' 
