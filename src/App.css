@@ -101,6 +101,10 @@ main section img {
     border-radius: 25px;
 }
 
+#imageSection {
+    position: relative;
+}
+
 .targetBox {
     position: absolute;
     box-shadow: 0 0 0 3px blue inset;
