@@ -4,24 +4,26 @@ import ApiHandler from './components/apiHandler/ApiHandler';
 import Client from './components/client/Client';
 import Navigation from './components/navigation/Navigation';
 
+const initState = {
+  username: 'Face Recognition Application',
+  isSignedIn: false,
+  clientRoute: 'Sign Up',
+  email: '',
+  entries: 0,
+}
+
 class App extends Component {
   constructor(){
     super();
 
-    this.state = {
-      username: 'Face Recognition Application',
-      isSignedIn: false,
-      clientRoute: 'Sign Up',
-      email: '',
-      entries: 0,
-    }
+    this.state = initState;
   }
 
   logoutUser = () => {
     this.setState({
       username: 'Face Recognition Application',
       isSignedIn: false,
-      clientRoute: 'Sign In',
+      clientRoute: 'Sign Up',
       email: '',
       entries: 0
     });

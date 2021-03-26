@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Clarifai from 'clarifai';
-import app from '../../key/Clarifai';
+import WorkSpace from "../workspace/WorkSpace";
 
 class ApiHandler extends Component {
     constructor(props) {
@@ -25,11 +24,34 @@ class ApiHandler extends Component {
         this.setState({
             imgLink: this.state.input
         }, () => {
-            app.models.predict(
-                Clarifai.FACE_DETECT_MODEL,
-                this.state.input
-            )
-            .then(response => this.parseData(response))
+            fetch('http://localhost:3001/url', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    input: this.state.input
+                })
+            }).then(response => response.json())
+            .then(response => {
+                if(response){
+                    fetch('http://localhost:3001/image', {
+                        method: 'put',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            email: this.state.email
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        this.setState({
+                            entries: result
+                        }, console.log(this.state.entries))
+                    })
+                }
+                this.parseData(response);
+
+            })
             .catch(error => console.log('Error: ' + error))
         })
     }
@@ -58,7 +80,7 @@ class ApiHandler extends Component {
 
         this.setState({
             box: currentCoordinates
-        }, () => console.log(this.state.box));
+        }, () => console.log(currentCoordinates));
     }
 
     render() {
@@ -69,16 +91,7 @@ class ApiHandler extends Component {
                     <input type='text' placeholder='Image URL' onChange={this.updateInput}/>
                 </form>
                 <button onClick={this.submitImage}>Submit</button>
-                {
-                    this.state.imgLink === ''
-                    ? ''
-                    : <img id="targetImage" alt="Searched image..." src={this.state.imgLink}/>
-                }
-                {
-                    this.state.box.forEach(element => {
-                        <div>{element}</div>
-                    })
-                }
+                <WorkSpace imgLink={this.state.imgLink} box={this.state.box}/>
             </main>
         );
     }
